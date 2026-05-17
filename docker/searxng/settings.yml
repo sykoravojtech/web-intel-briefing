@@ -1,0 +1,13 @@
+# Hardened for an automated local client: JSON enabled (off by default -> 403),
+# limiter off (no valkey needed, and it would flag a scripted client as a bot).
+use_default_settings: true
+server:
+  secret_key: "dev-only-throwaway-change-me-0123456789abcdef"
+  limiter: false
+  public_instance: false
+search:
+  formats:
+    - html
+    - json
+  languages:
+    - en
