@@ -25,15 +25,22 @@ uv sync                                                # install deps (Python 3.
 cp .env.example .env                                   # then set OPENAI_API_KEY
 docker compose -f docker/docker-compose.yml up -d      # local SearXNG on :8080
 uv run python -m agent.cli "Give me a briefing on RapidSOS in the last 7 days"
+uv run python -m agent.cli --example 2                 # built-in spec prompt (1-4)
 uv run python -m agent.cli "News on competitors Carbyne, RapidDeploy, Prepared" --max-docs 15
 uv run pytest -q                                       # unit tests (pure logic)
 ```
 
 Flags: `--max-docs N` (cap pages fetched/scored, default 15), `--data-dir DIR` (output
-root, default `data/`). Requires `OPENAI_API_KEY`; `SEARXNG_URL`, `MODEL_WORKHORSE`,
-`MODEL_SYNTH` (default `gpt-5-mini`), and `MODEL_SYNTH_EFFORT` (default `low`) are
-optional overrides — synth only organizes pre-validated facts, so the smaller model
-at low reasoning effort is near-frontier here for a large latency/cost cut.
+root, default `data/`), `--example 1-4` / `--list-examples` (the spec's four prompts,
+built in so the README can't drift from what the code runs).
+
+**Required:** `OPENAI_API_KEY` — the only thing you must set.
+
+**Optional** (sensible defaults; override only to tune): `SEARXNG_URL`
+(default `http://localhost:8080`), `MODEL_WORKHORSE` (default `gpt-4.1-mini`),
+`MODEL_SYNTH` (default `gpt-5-mini`), `MODEL_SYNTH_EFFORT` (default `low`) — synth
+only organizes pre-validated facts, so the smaller model at low reasoning effort is
+near-frontier here for a large latency/cost cut.
 
 Afterwards stop SearXNG using
 ```bash
