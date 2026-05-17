@@ -24,11 +24,19 @@ the code.
 uv sync                                                # install deps (Python 3.11+)
 cp .env.example .env                                   # then set OPENAI_API_KEY
 docker compose -f docker/docker-compose.yml up -d      # local SearXNG on :8080
+uv run python -m agent.cli --example 4                 # spec prompt; --list-examples for all 4
+uv run python -m agent.cli --example 2
 uv run python -m agent.cli "Give me a briefing on RapidSOS in the last 7 days"
-uv run python -m agent.cli --example 2                 # built-in spec prompt (1-4)
-uv run python -m agent.cli "News on competitors Carbyne, RapidDeploy, Prepared" --max-docs 15
 uv run pytest -q                                       # unit tests (pure logic)
 ```
+
+**A note on recall.** Search runs against a self-hosted SearXNG (volatile upstream
+engines), not a paid SERP API, so recall is non-deterministic — the same prompt can
+return rich coverage on one run and little on the next. A sparse or `⚠ DEGRADED`
+briefing is the relevance/grounding gate **failing safe** (honest "no coverage",
+never fabrication), not a crash; re-run, or widen with `--max-docs`. This tradeoff
+and the production fix (a paid SERP API) are in `docs/FUTURE-WORK.md` — the bounded
+`kept=0` retry is the in-scope mitigation.
 
 Flags: `--max-docs N` (cap pages fetched/scored, default 15), `--data-dir DIR` (output
 root, default `data/`), `--example 1-4` / `--list-examples` (the spec's four prompts,
