@@ -1,0 +1,35 @@
+# Secrets / never commit
+.env
+.env.*
+!.env.example
+*.pdf
+
+# Local working notes — not part of the deliverable
+docs/DEMO-NOTES.md
+docs/LESSONS.md
+AIM-BATTLE-TESTED-NOTES.md
+
+# Run outputs
+data/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.uv/
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# OS / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
